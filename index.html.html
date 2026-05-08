@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Día 6 para Angela</title>
+  <style>
+    :root {
+      --bg: #fff1f7;
+      --panel: rgba(255, 255, 255, 0.78);
+      --panel-strong: rgba(255, 255, 255, 0.94);
+      --pink: #ff6fae;
+      --pink-strong: #e84f96;
+      --pink-soft: #ffd1e6;
+      --rose: #ff9ecb;
+      --lavender: #f3dcff;
+      --cream: #fff8fb;
+      --text: #4a2436;
+      --muted: #8d5f76;
+      --border: rgba(232, 79, 150, 0.18);
+      --shadow: 0 24px 80px rgba(232, 79, 150, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 111, 174, 0.32), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(243, 220, 255, 0.92), transparent 34%),
+        linear-gradient(135deg, #fff1f7 0%, #ffe5f1 45%, #fff8fb 100%);
+      overflow-x: hidden;
+    }
+
+    .soft-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image:
+        linear-gradient(rgba(232, 79, 150, .28) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232, 79, 150, .28) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+    }
+
+    .page {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pill {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.62);
+      padding: 9px 13px;
+      border-radius: 999px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(232, 79, 150, 0.10);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 34px;
+      padding: clamp(24px, 5vw, 54px);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero::before {
+      content: "DÍA 6";
+      position: absolute;
+      right: -10px;
+      top: 18px;
+      font-size: clamp(58px, 12vw, 132px);
+      font-weight: 900;
+      line-height: 1;
+      color: rgba(232, 79, 150, 0.08);
+      letter-spacing: -0.08em;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "♡";
+      position: absolute;
+      right: 36px;
+      bottom: 20px;
+      font-size: 80px;
+      color: rgba(255, 111, 174, 0.16);
+      transform: rotate(-12deg);
+      pointer-events: none;
+    }
+
+    h1 {
+      position: relative;
+      margin: 0;
+      font-size: clamp(38px, 8vw, 82px);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, var(--pink-strong), #ff87bd, #b45cff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      position: relative;
+      max-width: 720px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 2.2vw, 20px);
+      line-height: 1.7;
+    }
+
+    .message-box {
+      margin-top: 28px;
+      border: 1px solid rgba(232, 79, 150, 0.22);
+      background: linear-gradient(135deg, rgba(255,255,255,0.76), rgba(255,209,230,0.44));
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 16px 42px rgba(232, 79, 150, 0.12);
+    }
+
+    .message-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 16px;
+      border-bottom: 1px solid rgba(232, 79, 150, 0.12);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hearts {
+      display: flex;
+      gap: 6px;
+      color: var(--pink);
+      font-size: 16px;
+    }
+
+    .message-body {
+      padding: 20px;
+      color: var(--text);
+      min-height: 112px;
+      line-height: 1.8;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 17px;
+      background: var(--pink);
+      vertical-align: -3px;
+      border-radius: 999px;
+      animation: blink 0.9s steps(2) infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .game-center {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .start-hidden {
+      display: none;
+    }
+
+    .start-hidden.show {
+      display: flex;
+      animation: fadeUp 0.55s ease both;
+    }
+
+    .game-stage {
+      display: none;
+      margin-top: 22px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.72);
+      border-radius: 28px;
+      padding: clamp(20px, 3vw, 28px);
+      box-shadow: 0 16px 42px rgba(232, 79, 150, 0.10);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-stage.show {
+      display: block;
+      animation: fadeUp 0.55s ease both;
+    }
+
+    .game-stage::after {
+      content: "♡";
+      position: absolute;
+      right: 24px;
+      top: 14px;
+      color: rgba(232, 79, 150, 0.13);
+      font-size: 68px;
+      transform: rotate(10deg);
+      pointer-events: none;
+    }
+
+    .progress-badge {
+      position: relative;
+      display: inline-flex;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 209, 230, 0.55);
+      color: var(--pink-strong);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .game-stage h3 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: clamp(24px, 3.4vw, 34px);
+      letter-spacing: -0.04em;
+      color: var(--pink-strong);
+    }
+
+    .game-stage p {
+      position: relative;
+      margin: 0;
+      max-width: 720px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    .game-note {
+      position: relative;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 209, 230, 0.36);
+      color: #6a304a;
+      line-height: 1.6;
+      font-weight: 650;
+    }
+
+    .stage-hidden {
+      display: none;
+    }
+
+    .stage-hidden.show {
+      display: block;
+      animation: fadeUp 0.55s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-title {
+      margin: 38px 0 16px;
+      font-size: clamp(24px, 4vw, 42px);
+      letter-spacing: -0.04em;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      min-height: 224px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 26px;
+      padding: 18px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+      box-shadow: 0 14px 36px rgba(232, 79, 150, 0.10);
+    }
+
+    .card::after {
+      content: "♡";
+      position: absolute;
+      right: 14px;
+      top: 10px;
+      color: rgba(232, 79, 150, 0.16);
+      font-size: 32px;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(232, 79, 150, 0.36);
+      background: var(--panel-strong);
+      box-shadow: 0 20px 46px rgba(232, 79, 150, 0.18);
+    }
+
+    .card.unlocked {
+      border-color: rgba(232, 79, 150, 0.48);
+      background:
+        radial-gradient(circle at top right, rgba(255, 209, 230, 0.72), transparent 42%),
+        rgba(255, 255, 255, 0.92);
+      box-shadow: 0 20px 48px rgba(232, 79, 150, 0.20);
+    }
+
+    .card.unlocked::after {
+      content: "✓";
+      color: var(--pink-strong);
+      background: rgba(255, 209, 230, 0.68);
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .card.unlocked .hint {
+      color: var(--pink-strong);
+      font-weight: 900;
+    }
+
+    .card-number {
+      color: var(--pink-strong);
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .card h3 {
+      margin: 18px 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .card .hidden-text {
+      opacity: 0;
+      transform: translateY(12px);
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.28s ease;
+    }
+
+    .card.open .hidden-text {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 190px;
+      margin-top: 12px;
+    }
+
+    .card.open .hint {
+      display: none;
+    }
+
+    .hint {
+      position: absolute;
+      bottom: 14px;
+      left: 18px;
+      right: 18px;
+      color: rgba(74, 36, 54, 0.38);
+      font-size: 12px;
+    }
+
+    .letter {
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.70);
+      border-radius: 34px;
+      padding: clamp(22px, 4vw, 40px);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .letter::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px dashed rgba(232, 79, 150, 0.18);
+      border-radius: 26px;
+      pointer-events: none;
+    }
+
+    .letter p {
+      position: relative;
+      color: #5a2a40;
+      line-height: 1.9;
+      font-size: 17px;
+      margin: 0 0 20px;
+    }
+
+    .letter strong {
+      color: var(--pink-strong);
+    }
+
+    .actions {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 18px;
+      font-weight: 900;
+      cursor: pointer;
+      color: #ffffff;
+      background: linear-gradient(90deg, var(--pink-strong), var(--rose));
+      box-shadow: 0 14px 32px rgba(232, 79, 150, 0.24);
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+    }
+
+    button.secondary {
+      color: var(--pink-strong);
+      background: rgba(255,255,255,0.70);
+      border: 1px solid var(--border);
+      box-shadow: none;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.52;
+      filter: grayscale(0.15);
+      transform: none;
+      box-shadow: none;
+    }
+
+    button:disabled:hover {
+      transform: none;
+      filter: grayscale(0.15);
+    }
+
+    .secret {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(74, 36, 54, 0.30);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+
+    .secret.show {
+      display: flex;
+      animation: rewardBackdrop 0.38s ease both;
+    }
+
+    .secret-card {
+      max-height: calc(100vh - 36px);
+      overflow-y: auto;
+      width: min(640px, 100%);
+      position: relative;
+      padding: clamp(26px, 6vw, 48px);
+      border-radius: 36px;
+      border: 1px solid rgba(232, 79, 150, 0.28);
+      background:
+        radial-gradient(circle at top left, rgba(255, 209, 230, 0.95), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(243, 220, 255, 0.88), transparent 38%),
+        rgba(255, 255, 255, 0.96);
+      box-shadow: 0 36px 120px rgba(74, 36, 54, 0.32);
+      overflow: hidden;
+      animation: rewardCardOpen 0.78s cubic-bezier(.17,.9,.25,1.18) both;
+    }
+
+    .secret-card::before {
+      content: "♡";
+      position: absolute;
+      right: 18px;
+      top: -6px;
+      font-size: 138px;
+      line-height: 1;
+      color: rgba(232, 79, 150, 0.11);
+      transform: rotate(12deg);
+      pointer-events: none;
+      animation: softPulse 2.4s ease-in-out infinite;
+    }
+
+    .secret-card::after {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px dashed rgba(232, 79, 150, 0.22);
+      border-radius: 26px;
+      pointer-events: none;
+    }
+
+    .secret-close {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      z-index: 2;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 999px;
+      color: var(--pink-strong);
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--border);
+      box-shadow: none;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .secret-kicker {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      padding: 8px 12px;
+      margin-bottom: 16px;
+      border-radius: 999px;
+      background: rgba(255, 209, 230, 0.78);
+      color: var(--pink-strong);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      animation: rewardBadge 1.4s ease-in-out infinite;
+    }
+
+    .secret h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 42px 16px 0;
+      color: var(--pink-strong);
+      font-size: clamp(30px, 6vw, 48px);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+    }
+
+    .secret-message {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255, 209, 230, 0.42);
+      color: #5a2a40;
+      font-size: 17px;
+      line-height: 1.85;
+      font-weight: 750;
+      border: 1px solid rgba(232, 79, 150, 0.16);
+    }
+
+    .secret-reward-note {
+      position: relative;
+      z-index: 1;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 750;
+      line-height: 1.6;
+    }
+
+    .reward-orbit {
+      position: absolute;
+      inset: -40px;
+      pointer-events: none;
+      opacity: 0.72;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,111,174,0.26) 0 4px, transparent 5px),
+        radial-gradient(circle at 78% 22%, rgba(180,92,255,0.20) 0 4px, transparent 5px),
+        radial-gradient(circle at 72% 76%, rgba(255,111,174,0.22) 0 5px, transparent 6px),
+        radial-gradient(circle at 28% 82%, rgba(255,158,203,0.28) 0 5px, transparent 6px);
+      animation: orbitGlow 5s linear infinite;
+    }
+
+    @keyframes rewardBackdrop {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes rewardCardOpen {
+      0% {
+        opacity: 0;
+        transform: translateY(24px) scale(0.72) rotate(-3deg);
+        filter: blur(6px);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.03) rotate(1deg);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes softPulse {
+      0%, 100% { transform: rotate(12deg) scale(1); opacity: 0.11; }
+      50% { transform: rotate(12deg) scale(1.08); opacity: 0.18; }
+    }
+
+    @keyframes rewardBadge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    @keyframes orbitGlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer {
+      display: none;
+      text-align: center;
+      color: rgba(74,36,54,0.52);
+      margin-top: 34px;
+      font-size: 13px;
+    }
+
+    .footer.show {
+      display: block;
+      animation: fadeUp 0.55s ease both;
+    }
+
+    .floating {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(232, 79, 150, 0.38);
+      animation: floatUp linear infinite;
+      font-size: 16px;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      12% { opacity: 1; }
+      to { transform: translateY(-10vh) rotate(24deg); opacity: 0; }
+    }
+
+    .card-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      padding: 18px;
+      background: rgba(74, 36, 54, 0.26);
+      backdrop-filter: blur(10px);
+    }
+
+    .card-modal-backdrop.show {
+      display: flex;
+      animation: fadeIn 0.24s ease both;
+    }
+
+    .card-modal {
+      max-height: calc(100vh - 36px);
+      overflow-y: auto;
+      width: min(620px, 100%);
+      border: 1px solid rgba(232, 79, 150, 0.24);
+      background:
+        radial-gradient(circle at top right, rgba(255, 209, 230, 0.82), transparent 36%),
+        rgba(255, 255, 255, 0.94);
+      border-radius: 34px;
+      padding: clamp(24px, 5vw, 38px);
+      box-shadow: 0 34px 100px rgba(74, 36, 54, 0.26);
+      position: relative;
+      overflow: hidden;
+      animation: modalPop 0.36s cubic-bezier(.2,.9,.2,1.15) both;
+    }
+
+    .card-modal::before {
+      content: "♡";
+      position: absolute;
+      right: 24px;
+      top: 12px;
+      color: rgba(232, 79, 150, 0.12);
+      font-size: 112px;
+      transform: rotate(12deg);
+      pointer-events: none;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+      color: var(--pink-strong);
+      border: 1px solid var(--border);
+      box-shadow: none;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .modal-number {
+      position: relative;
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 209, 230, 0.62);
+      color: var(--pink-strong);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .card-modal h3 {
+      position: relative;
+      margin: 0 42px 12px 0;
+      color: var(--pink-strong);
+      font-size: clamp(28px, 5vw, 42px);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+    }
+
+    .modal-intro {
+      position: relative;
+      color: #6a304a;
+      line-height: 1.7;
+      font-size: 17px;
+      font-weight: 700;
+      margin: 0 0 16px;
+    }
+
+    .modal-text {
+      position: relative;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .modal-footer-note {
+      position: relative;
+      margin-top: 22px;
+      padding: 13px 15px;
+      border-radius: 18px;
+      background: rgba(255, 209, 230, 0.42);
+      color: #6a304a;
+      font-weight: 750;
+      line-height: 1.55;
+    }
+
+    .heart-burst-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 90;
+      overflow: hidden;
+    }
+
+    .burst-heart {
+      position: fixed;
+      left: var(--x);
+      top: var(--y);
+      transform: translate(-50%, -50%);
+      color: rgba(232, 79, 150, 0.86);
+      font-size: var(--size);
+      text-shadow: 0 8px 20px rgba(232, 79, 150, 0.25);
+      animation: heartBurst 920ms ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modalPop {
+      from {
+        opacity: 0;
+        transform: translateY(22px) scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes heartBurst {
+      from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.55) rotate(0deg);
+      }
+      to {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.8) rotate(var(--rot));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 22px, 980px);
+        padding-top: 18px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        min-height: 190px;
+      }
+
+      .game-center,
+      .actions {
+        justify-content: center;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .card-modal,
+      .secret-card {
+        border-radius: 26px;
+        padding: 24px;
+      }
+
+      .modal-close,
+      .secret-close {
+        right: 12px;
+        top: 12px;
+      }
+
+      .letter p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="soft-grid"></div>
+  <div class="floating" id="floating"></div>
+
+  <main class="page">
+    <div class="topbar">
+      <div class="pill">Semana Especial · Día 6</div>
+      <div class="pill">Sorpresa para Angelita</div>
+    </div>
+
+    <section class="hero">
+      <h1>Para <span class="gradient-text">Angelita</span>,<br />mi toxiquita bonita.</h1>
+      <p class="subtitle">
+        Un pequeño detalle para una mujer especial, increíble y con esa forma tan suya de volver bonito lo cotidiano.
+      </p>
+
+      <div class="message-box">
+        <div class="message-head">
+          <span>Cargando sorpresa para Angelita</span>
+          <span class="hearts">♡ ♡ ♡</span>
+        </div>
+        <div class="message-body">
+          <span id="typed"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="game-center start-hidden" id="startControls">
+        <button onclick="startSurprise()">Empezar sorpresa</button>
+      </div>
+    </section>
+
+    <section class="game-stage" id="stage2" aria-label="Nivel uno desbloqueado">
+      <span class="progress-badge">Nivel 1 desbloqueado</span>
+      <h3>Una pequeña misión para ti ♡</h3>
+      <p>
+        Hoy tienes una misión importante: abrir cada parte con calma y dejarte recordar, aunque sea un poquito, lo querida y bonita que eres para mí.
+      </p>
+      <div class="game-note">
+        Regla del juego: abrir cada parte con calma. No hay tiempo límite, no hay trampas y no necesitas hacer nada más que disfrutarlo.
+      </div>
+      <div class="game-center">
+        <button onclick="showCards()">Desbloquear 6 secretos</button>
+      </div>
+    </section>
+
+    <div id="cardsStage" class="stage-hidden">
+      <section class="game-stage show" style="margin-top: 0; margin-bottom: 18px;">
+        <span class="progress-badge">Nivel 2 desbloqueado</span>
+        <h3>6 cositas que me encantan de ti</h3>
+        <p>
+          Acabas de desbloquear una parte especial de esta sorpresa. Aquí están 6 cosas que fui guardando porque me hacen pensar en ti, en tu forma de ser y en todo eso que me gusta más de lo que a veces digo.
+        </p>
+        <div class="game-note">
+          Pista: toca cada tarjeta para abrirla. Cada una guarda un secreto distinto sobre algo que me gusta de ti.
+        </div>
+      </section>
+
+      <section class="cards" aria-label="Seis cosas que me gustan de Angela">
+        <article class="card" onclick="openCardModal(this, event)">
+          <div class="card-number">01 · Presencia</div>
+          <h3>Tu forma de aparecer</h3>
+          <p>Tu presencia siempre hace que los días se sientan diferentes, y de alguna forma terminas haciéndolos más bonitos.</p>
+          <p class="hidden-text">No sé en qué momento te volviste una parte tan importante de mis días, pero sé que compartir tanto tiempo contigo se volvió natural, bonito y algo que me gusta demasiado. Me gusta saber de ti, molestarte un poquito y sentir que estás ahí.</p>
+          <div class="hint">Toca para abrir ♡</div>
+        </article>
+
+        <article class="card" onclick="openCardModal(this, event)">
+          <div class="card-number">02 · Ternura</div>
+          <h3>Tu lado tierno</h3>
+          <p>Ese lado tuyo tan evidente, tan bonito, y que no te da miedo mostrar cuando te nace.</p>
+          <p class="hidden-text">Me gusta tu parte tierna y sensible. No como algo débil, sino como algo valioso, delicado y muy tuyo. Algo que dan ganas de cuidar con mucho cariño.</p>
+          <div class="hint">Toca para abrir ♡</div>
+        </article>
+
+        <article class="card" onclick="openCardModal(this, event)">
+          <div class="card-number">03 · Picardía</div>
+          <h3>Tu chispa</h3>
+          <p>Tienes una mezcla muy auténtica: dulce, peligrosa y demasiado entretenida.</p>
+          <p class="hidden-text">Eres toxiquita, sí, pero me gusta esa parte de ti. Tienes una forma de hacer que cada día se sienta diferente, y que una conversación normal termine con una sonrisa inevitable.</p>
+          <div class="hint">Toca para abrir ♡</div>
+        </article>
+
+        <article class="card" onclick="openCardModal(this, event)">
+          <div class="card-number">04 · Humor</div>
+          <h3>Tu forma de molestar</h3>
+          <p>Lo tuyo no es humor básico. Lo tuyo viene con precisión, intención y argumento.</p>
+          <p class="hidden-text">Me da risa esa forma tuya de lanzar comentarios tan específicos, tan afilados y tan tuyos. Humor para pensantes. No cualquiera sobrevive a tu análisis ni a tus comentarios.</p>
+          <div class="hint">Toca para abrir ♡</div>
+        </article>
+
+        <article class="card" onclick="openCardModal(this, event)">
+          <div class="card-number">05 · Lo que provocas</div>
+          <h3>Cómo me haces sentir</h3>
+          <p>Para sentir algo sincero no siempre hacen falta años. A veces basta con alguien que llega distinto.</p>
+          <p class="hidden-text">No somos algo definido, pero sí sé esto: hablar contigo me gusta más de lo que esperaba. Tú te volviste más especial de lo que quizá debería admitir. No necesité años para saber que quería que hicieras parte de mi vida y guardaras un lugar bonito en mi corazón.</p>
+          <div class="hint">Toca para abrir ♡</div>
+        </article>
+
+        <article class="card" onclick="openCardModal(this, event)">
+          <div class="card-number">06 · Medianoche</div>
+          <h3>Tu regalo</h3>
+          <p>Hay detalles que no se entregan a cualquier hora. Algunos merecen esperar a las 00:00.</p>
+          <p class="hidden-text">Esta carta también es parte de eso: una forma de decirte que pensé en ti, en tu color favorito, en tus maneras y en cómo hacerte algo que se sintiera realmente tuyo.</p>
+          <div class="hint">Toca para abrir ♡</div>
+        </article>
+      </section>
+
+      <div class="game-stage show" style="margin-top: 22px;" id="letterGate">
+        <span class="progress-badge" id="letterGateBadge">Nivel 3 bloqueado</span>
+        <h3 id="letterGateTitle">Carta final todavía bloqueada</h3>
+        <p id="letterGateText">
+          Abre los 6 secretos para desbloquear la carta completa que quería entregarte como regalo.
+        </p>
+        <div class="game-note" id="letterGateNote">
+          Secretos desbloqueados: 0 / 6
+        </div>
+        <div class="game-center">
+          <button onclick="showLetter()" id="unlockLetterButton" disabled>Desbloquear carta</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-modal-backdrop" id="cardModalBackdrop" aria-hidden="true" onclick="if (event.target === this) closeCardModal();">
+      <div class="card-modal" role="dialog" aria-modal="true" aria-labelledby="cardModalTitle">
+        <button class="modal-close" onclick="closeCardModal()" aria-label="Cerrar secreto">×</button>
+        <div class="modal-number" id="cardModalNumber"></div>
+        <h3 id="cardModalTitle"></h3>
+        <p class="modal-intro" id="cardModalIntro"></p>
+        <p class="modal-text" id="cardModalText"></p>
+        <div class="modal-footer-note">Secreto desbloqueado ♡</div>
+      </div>
+    </div>
+
+    <div class="heart-burst-layer" id="heartBurstLayer"></div>
+
+    <section class="letter stage-hidden" id="letterStage">
+      <p><strong>Angelita,</strong></p>
+      <p>
+        Hoy llegamos al día 6 de tu semana de cumpleaños, y quería hacer algo diferente para ti. No solo una carta escrita, sino una carta que se sintiera más tuya: rosita como tu color favorito, hecha para la girlypop más increíble, un poquito juguetona y con esos detalles que no tendría sentido ponerle a nadie más.
+      </p>
+      <p>
+        Me gusta esa mezcla que tienes. Puedes ser tierna y frágil, pero también puedes aparecer con ese humor inteligente que no cualquiera entiende. Puedes sonar gruñona, hacerte la difícil, activar tu modo toxiquita, y aun así hay algo en todo eso que me parece demasiado bonito: tu forma de ser.
+      </p>
+      <p>
+        Me gusta hablar contigo todos los días. Me gusta que entre conversaciones, bromas y alguna que otra discusión, te hayas vuelto una parte especial de mi rutina. No sé exactamente qué somos ni quiero forzarle un nombre antes de tiempo, pero sí sé que me importa lo que se ha ido construyendo entre nosotros.
+      </p>
+      <p>
+        Así que este día 6 es para recordarte seis cosas: que me gusta tu presencia, tu ternura, tu picardía, tu humor inteligente, esa forma tan Angelita de hacer que una conversación común termine siendo algo que quiero repetir al día siguiente, y esta ilusión bonita de preparar algo para ti justo a medianoche.
+      </p>
+      <p>
+        Feliz día 6, mi toxiquita bonita. Sigue siendo tierna, peligrosa y nunca aburrida.
+      </p>
+
+      <div class="actions">
+        <button onclick="showSecret()">Abrir mensajito secreto</button>
+        
+      </div>
+
+      <div class="secret" id="secret" aria-hidden="true" onclick="if (event.target === this) closeSecret();">
+        <div class="secret-card" role="dialog" aria-modal="true" aria-labelledby="secretTitle">
+          <div class="reward-orbit"></div>
+          <button class="secret-close" onclick="closeSecret()" aria-label="Cerrar mensajito secreto">×</button>
+          <span class="secret-kicker">Recompensa final desbloqueada</span>
+          <h3 id="secretTitle">Mensajito secreto ♡</h3>
+          <p class="secret-message">
+            Quería hacerte algo tierno porque tu color favorito es el rosa, pero también porque tú tienes algo así:
+            una mezcla de ternura, caos pequeño y encanto peligroso. Y como esto es para medianoche, cuenta como
+            regalo desbloqueado justo a tiempo. Si esto te hizo sonreír, entonces gané este round.
+            Sin flash, sin smoke, solo con cariño.
+          </p>
+          <div class="secret-reward-note">
+            Nivel completado: sonrisa de Angelita, o al menos eso espero.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer" id="footerStage">
+      Hecho para Angelita · Día 6 · Entregado a medianoche, porque algunas personas merecen detalles pensados con tiempo.
+    </div>
+  </main>
+
+  <script>
+    const typedText = [
+      "Preparando colores rositas para Angela...",
+      "Buscando el tono exacto de rosa que le gusta...",
+      "Detectando apodos: gruñonsita / toxiquita...",
+      "Calculando nivel de ternura: peligrosamente alto...",
+      "Analizando modo toxiquita: activo, pero adorable...",
+      "Revisando si intenta disimular lo tierna que es...",
+      "Resultado del análisis: no disimula tan bien como cree.",
+      "Guardando cositas bonitas en el corazoncito...",
+      "Cargando secretos que no se le dicen a cualquiera...",
+      "Preparando una sorpresa digna de medianoche...",
+      "Casi listo... no seas impaciente, Angelita.",
+      "Resultado final: sorpresa lista para Angelita. Advertencia: Contenido cargado de cariño y sentimientos sinceros."
+    ];
+
+    const typedElement = document.getElementById("typed");
+    let line = 0;
+    let char = 0;
+    let introCompleted = false;
+    const unlockedSecrets = new Set();
+
+    function type() {
+      if (line < typedText.length) {
+        if (char < typedText[line].length) {
+          typedElement.innerHTML += typedText[line].charAt(char);
+          char++;
+          setTimeout(type, 42);
+        } else {
+          typedElement.innerHTML += "<br />";
+          line++;
+          char = 0;
+          setTimeout(type, 650);
+        }
+      } else {
+        finishIntroLoading();
+      }
+    }
+
+    function finishIntroLoading() {
+      if (introCompleted) return;
+      introCompleted = true;
+
+      const controls = document.getElementById("startControls");
+      controls.classList.add("show");
+      setTimeout(() => createHeartBurstFromElement(controls, 24), 220);
+    }
+
+    function revealStage(id) {
+      const stage = document.getElementById(id);
+      if (!stage) return;
+      stage.classList.add("show");
+      setTimeout(() => {
+        stage.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
+    }
+
+    function startSurprise() {
+      createHeartBurstFromElement(document.activeElement, 30);
+      revealStage("stage2");
+      setTimeout(() => createHeartBurstFromElement(document.getElementById("stage2"), 18), 520);
+    }
+
+    function showCards() {
+      createHeartBurstFromElement(document.activeElement, 34);
+      revealStage("cardsStage");
+      updateLetterUnlock();
+      setTimeout(() => createHeartBurstFromElement(document.getElementById("cardsStage"), 24), 560);
+    }
+
+    function showLetter() {
+      if (unlockedSecrets.size < 6) {
+        createHeartBurstFromElement(document.getElementById("letterGate"), 18);
+        return;
+      }
+
+      createHeartBurstFromElement(document.activeElement, 38);
+      revealStage("letterStage");
+      document.getElementById("footerStage").classList.add("show");
+      setTimeout(() => createHeartBurstFromElement(document.getElementById("letterStage"), 28), 620);
+    }
+
+    function openCardModal(card, event) {
+      const number = card.querySelector(".card-number")?.textContent || "Secreto";
+      const title = card.querySelector("h3")?.textContent || "Secreto desbloqueado";
+      const intro = card.querySelector("p:not(.hidden-text)")?.textContent || "";
+      const text = card.querySelector(".hidden-text")?.textContent || "";
+
+      card.classList.add("unlocked");
+      const hint = card.querySelector(".hint");
+      if (hint) hint.textContent = "Desbloqueado ♡";
+      unlockedSecrets.add(number);
+      updateLetterUnlock();
+
+      document.getElementById("cardModalNumber").textContent = number;
+      document.getElementById("cardModalTitle").textContent = title;
+      document.getElementById("cardModalIntro").textContent = intro;
+      document.getElementById("cardModalText").textContent = text;
+
+      createHeartBurst(event);
+
+      const modal = document.getElementById("cardModalBackdrop");
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeCardModal() {
+      const modal = document.getElementById("cardModalBackdrop");
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    function updateLetterUnlock() {
+      const total = 6;
+      const count = unlockedSecrets.size;
+      const button = document.getElementById("unlockLetterButton");
+      const badge = document.getElementById("letterGateBadge");
+      const title = document.getElementById("letterGateTitle");
+      const text = document.getElementById("letterGateText");
+      const note = document.getElementById("letterGateNote");
+
+      if (!button || !badge || !title || !text || !note) return;
+
+      note.textContent = `Secretos desbloqueados: ${count} / ${total}`;
+
+      if (count >= total) {
+        button.disabled = false;
+        button.textContent = "Desbloquear carta";
+        badge.textContent = "Nivel 3 desbloqueado";
+        title.textContent = "Carta final disponible";
+        text.textContent = "Ya desbloqueaste los 6 secretos. Ahora queda la parte principal: la carta completa que quería entregarte como regalo.";
+        note.textContent = "Nivel completado. La carta final ya está lista para abrirse ♡";
+        createHeartBurstFromElement(document.getElementById("letterGate"), 28);
+      } else {
+        button.disabled = true;
+        button.textContent = "Carta bloqueada";
+        badge.textContent = "Nivel 3 bloqueado";
+        title.textContent = "Carta final todavía bloqueada";
+        text.textContent = "Abre los 6 secretos para desbloquear la carta completa que quería entregarte como regalo.";
+      }
+    }
+
+    function createHeartBurst(event, count = 26) {
+      const x = event?.clientX || window.innerWidth / 2;
+      const y = event?.clientY || window.innerHeight / 2;
+      createHeartBurstAt(x, y, count);
+    }
+
+    function createHeartBurstFromElement(element, count = 24) {
+      if (!element || !element.getBoundingClientRect) {
+        createHeartBurstAt(window.innerWidth / 2, window.innerHeight / 2, count);
+        return;
+      }
+
+      const rect = element.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + Math.min(rect.height / 2, 180);
+      createHeartBurstAt(x, y, count);
+    }
+
+    function createHeartBurstAt(x, y, count = 26) {
+      const layer = document.getElementById("heartBurstLayer");
+      const symbols = ["♡", "❤", "✦", "♡", "❀"];
+
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement("span");
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 70 + Math.random() * 170;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance;
+
+        heart.className = "burst-heart";
+        heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        heart.style.setProperty("--x", `${x}px`);
+        heart.style.setProperty("--y", `${y}px`);
+        heart.style.setProperty("--dx", `${dx}px`);
+        heart.style.setProperty("--dy", `${dy}px`);
+        heart.style.setProperty("--rot", `${-55 + Math.random() * 110}deg`);
+        heart.style.setProperty("--size", `${14 + Math.random() * 24}px`);
+        layer.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 960);
+      }
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeCardModal();
+        closeSecret();
+      }
+    });
+
+    function showSecret() {
+      const secret = document.getElementById("secret");
+      secret.classList.add("show");
+      secret.setAttribute("aria-hidden", "false");
+
+      createHeartBurstFromElement(document.activeElement, 44);
+
+      setTimeout(() => createHeartBurstAt(window.innerWidth / 2, window.innerHeight / 2, 52), 260);
+      setTimeout(() => createHeartBurstAt(window.innerWidth / 2, window.innerHeight / 2, 34), 720);
+    }
+
+    function closeSecret() {
+      const secret = document.getElementById("secret");
+      secret.classList.remove("show");
+      secret.setAttribute("aria-hidden", "true");
+    }
+
+    function createHearts() {
+      const container = document.getElementById("floating");
+      const symbols = ["♡", "✦", "♡", "·"];
+      for (let i = 0; i < 46; i++) {
+        const heart = document.createElement("span");
+        heart.className = "heart";
+        heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = 10 + Math.random() * 18 + "px";
+        heart.style.animationDuration = 8 + Math.random() * 12 + "s";
+        heart.style.animationDelay = Math.random() * 9 + "s";
+        heart.style.opacity = 0.20 + Math.random() * 0.48;
+        container.appendChild(heart);
+      }
+    }
+
+    createHearts();
+    type();
+  </script>
+</body>
+</html>
